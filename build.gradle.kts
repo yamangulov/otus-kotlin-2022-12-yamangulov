@@ -4,12 +4,9 @@ plugins {
     kotlin("jvm") version "1.7.21"
 }
 
-group = "ru.otus.otuskotlin.marketplace"
-version = "0.0.1"
-
 subprojects {
-    group = rootProject.group
-    version = rootProject.version
+    group = System.getProperty("group")
+    version = System.getProperty("version")
     repositories {
         mavenCentral()
     }
