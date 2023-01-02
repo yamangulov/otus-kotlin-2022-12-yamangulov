@@ -1,15 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version System.getProperty("jvmVersion")
 }
 
-group = "ru.otus.otuskotlin.marketplace"
-version = "0.0.1"
-
 subprojects {
-    group = rootProject.group
-    version = rootProject.version
+    group = System.getProperty("group")
+    version = System.getProperty("version")
     repositories {
         mavenCentral()
     }
