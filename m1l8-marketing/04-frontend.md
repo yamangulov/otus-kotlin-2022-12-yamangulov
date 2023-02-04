@@ -1,0 +1,1 @@
+![](/media/stranger/repo/otus-kotlin-2022-12-yamangulov/m1l8-marketing/maket.png)
