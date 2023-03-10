@@ -1,0 +1,291 @@
+openapi: 3.0.4
+info:
+  title: API для экспорта данных из Clickhouse
+  description: API для экспорта данных из Clickhouse с фильтрами и постраничной загрузкой
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost/v1
+tags:
+  - name: real estates
+    description: Поиск по набору обезличенных данных о стоимости недвижимости в Великобритании с 1995 г.
+paths:
+  /estate/search:
+    post:
+      tags:
+        - estate
+      summary: Search real estates
+      operationId: estateSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstateSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstateSearchResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: search
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+      discriminator:
+        propertyName: requestType
+        mapping:
+          search: '#/components/schemas/EstateSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: search
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          search: '#/components/schemas/EstateSearchResponse'
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    Uuid:
+      type: string
+      description: Идентификатор объекта недвижимости
+    Price:
+      type: integer
+      description: Стоимость объекта недвижимости
+    Date:
+      type: string
+      description: Дата выставления на продажу
+    Postcode1:
+      type: string
+      description: Outward postcode in Britain, area plus district. https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
+    Postcode2:
+      type: string
+      description: Inward postcode in Britain, sector plus unit. https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
+    Type:
+      type: string
+      description: Тип объекта недвижимости
+      enum:
+        - terraced
+        - semidetached
+        - detached
+        - flat
+        - other
+    IsNew:
+      type: string
+      description: Новый
+      enum:
+        - Y
+    Duration:
+      type: string
+      description: Вид собственности (freehold - земля под объектом в собственности, leasehold - в аренде)
+      enum:
+        - freehold
+        - leasehold
+        - unknown
+    Addr1:
+      type: string
+      description: Address Line 1 in England - house/flat no, building name, street name/number
+    Addr2:
+      type: string
+      description: Address Line 2 in England - Block no. , Area Name and other information
+    Street:
+      type: string
+      description: Улица
+    Locality:
+      type: string
+      description: Географический регион
+    Town:
+      type: string
+      description: Город
+    District:
+      type: string
+      description: Район
+    County:
+      type: string
+      description: Графство
+    Category:
+      type: string
+      description: Категория B - оборудована мебелью
+      enum:
+        - B
+
+#    в будущем может быть доработан, чтобы фильтровать по отдельным полям
+    EstateSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в свойствах объектов недвижимости
+
+    Offset:
+      type: integer
+      description: Номер страницы для поиска
+
+    Pagesize:
+          type: integer
+          description: Размер страницы для поиска
+
+    EstateSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/EstateRequestDebug'
+        - type: object
+          properties:
+            estateFilter:
+              $ref: '#/components/schemas/EstateSearchFilter'
+
+    EstateResponseObject:
+      allOf:
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/Uuid'
+            price:
+              $ref: '#/components/schemas/Price'
+            date:
+              $ref: '#/components/schemas/Date'
+            postcode1:
+              $ref: '#/components/schemas/Postcode1'
+            postcode2:
+              $ref: '#/components/schemas/Postcode2'
+            type:
+              $ref: '#/components/schemas/Type'
+            isnew:
+              $ref: '#/components/schemas/IsNew'
+            duration:
+              $ref: '#/components/schemas/Duration'
+            addr1:
+              $ref: '#/components/schemas/Addr1'
+            addr2:
+              $ref: '#/components/schemas/Addr2'
+            street:
+              $ref: '#/components/schemas/Street'
+            locality:
+              $ref: '#/components/schemas/Locality'
+            town:
+              $ref: '#/components/schemas/Town'
+            district:
+              $ref: '#/components/schemas/District'
+            county:
+              $ref: '#/components/schemas/County'
+            category:
+              $ref: '#/components/schemas/Category'
+            filter:
+              $ref: '#/components/schemas/EstateSearchFilter'
+            offset:
+              $ref: '#/components/schemas/Offset'
+            pagesize:
+              $ref: '#/components/schemas/Pagesize'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/EstatePermissions'
+
+    EstatePermissions:
+      type: string
+      description: Доступы для клиента для получения данных об объектах
+      enum:
+        - search
+
+    EstateResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов недвижимости
+          properties:
+            estates:
+              type: array
+              items:
+                $ref: '#/components/schemas/EstateResponseObject'
+
+    EstateSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/EstateResponseMulti'
+
+    # STUBS ======================
+    EstateRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    EstateRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/EstateDebug'
+
+    EstateDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/EstateRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/EstateRequestDebugStubs'
+
+    EstateRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badTableName
+        - badSearchString
+        - badOffset
+        - badPagesize

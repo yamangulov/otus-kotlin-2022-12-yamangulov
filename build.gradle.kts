@@ -1,17 +1,24 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
-    kotlin("jvm") version System.getProperty("jvmVersion")
+    kotlin("jvm") apply false
 }
 
+group = System.getProperty("group")
+version = System.getProperty("version")
+
 subprojects {
-    group = System.getProperty("group")
-    version = System.getProperty("version")
+    group = rootProject.group
+    version = rootProject.version
     repositories {
         mavenCentral()
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "17"
+    }
+    tasks.withType<KotlinJvmCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 }
