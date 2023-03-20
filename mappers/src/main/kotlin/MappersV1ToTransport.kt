@@ -81,7 +81,7 @@ private fun ClientIsNew.toTransportEstate() = when (this) {
 }
 
 private fun ClientDuration.toTransportEstate() = when (this) {
-    ClientDuration.FREEHOLE -> Duration.FREEHOLD
+    ClientDuration.FREEHOLED -> Duration.FREEHOLD
     ClientDuration.LEASEHOLD -> Duration.LEASEHOLD
     ClientDuration.UNKNOWN -> Duration.UNKNOWN
 }

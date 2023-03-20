@@ -8,6 +8,14 @@ plugins {
 group = System.getProperty("group")
 version = System.getProperty("version")
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+
 subprojects {
     group = rootProject.group
     version = rootProject.version
