@@ -1,5 +1,5 @@
 package models
 
 enum class ClientDuration {
-    UNKNOWN, FREEHOLE, LEASEHOLD
+    UNKNOWN, FREEHOLED, LEASEHOLD
 }
