@@ -21,4 +21,6 @@ include("common")
 include("mappers")
 include("app-ktor")
 include("stubs")
+include("app-kafka")
+include("biz")
 
