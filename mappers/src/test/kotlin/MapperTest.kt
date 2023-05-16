@@ -1,9 +1,10 @@
-import models.*
 import org.junit.Test
 import ru.otus.otuskotlin.clickhouse.client.api.v1.models.*
+import ru.otus.otuskotlin.clickhouse.client.common.ClientContext
+import ru.otus.otuskotlin.clickhouse.client.common.models.*
+import ru.otus.otuskotlin.clickhouse.client.common.stubs.ClientStubs
 import ru.otus.otuskotlin.clickhouse.client.mappers.v1.fromTransport
 import ru.otus.otuskotlin.clickhouse.client.mappers.v1.toTransportEstate
-import stubs.ClientStubs
 import kotlin.test.assertEquals
 
 class MapperTest {

@@ -1,10 +1,10 @@
 package ru.otus.otuskotlin.clickhouse.client.kafka
 
-import ClientContext
 import apiV1RequestDeserialize
 import apiV1ResponseSerialize
 import ru.otus.otuskotlin.clickhouse.client.api.v1.models.IRequest
 import ru.otus.otuskotlin.clickhouse.client.api.v1.models.IResponse
+import ru.otus.otuskotlin.clickhouse.client.common.ClientContext
 import ru.otus.otuskotlin.clickhouse.client.mappers.v1.fromTransport
 import ru.otus.otuskotlin.clickhouse.client.mappers.v1.toTransportSearch
 
