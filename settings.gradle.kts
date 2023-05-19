@@ -23,4 +23,5 @@ include("app-ktor")
 include("stubs")
 include("app-kafka")
 include("biz")
+include("lib-cor")
 

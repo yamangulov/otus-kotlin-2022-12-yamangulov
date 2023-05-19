@@ -1,6 +1,5 @@
 package ru.otus.otuskotlin.clickhouse.client.kafka
 
-import ClientContext
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -14,7 +13,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.errors.WakeupException
-import ru.otus.otuskotlin.clienthouse.client.biz.ClientEstateProcessor
+import ru.otus.otuskotlin.clickhouse.client.biz.ClientEstateProcessor
+import ru.otus.otuskotlin.clickhouse.client.common.ClientContext
 import java.time.Duration
 import java.util.*
 

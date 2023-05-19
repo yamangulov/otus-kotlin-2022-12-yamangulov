@@ -1,10 +1,10 @@
 package ru.otus.otuskotlin.clickhouse.client.mappers.v1
 
-import ClientContext
-import models.*
 import ru.otus.otuskotlin.clickhouse.client.api.v1.models.*
+import ru.otus.otuskotlin.clickhouse.client.common.ClientContext
+import ru.otus.otuskotlin.clickhouse.client.common.models.*
+import ru.otus.otuskotlin.clickhouse.client.common.stubs.ClientStubs
 import ru.otus.otuskotlin.clickhouse.client.mappers.v1.exceptions.UnknownRequestClass
-import stubs.ClientStubs
 
 fun ClientContext.fromTransport(request: IRequest) = when (request) {
     is EstateSearchRequest -> fromTransport(request)

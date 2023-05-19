@@ -88,6 +88,7 @@ kotlin {
                 implementation(project(":common"))
                 implementation(project(":api"))
                 implementation(project(":mappers"))
+                implementation(project(":biz"))
 
                 // Stubs
                 implementation(project(":stubs"))

@@ -1,8 +1,8 @@
 package ru.otus.otuskotlin.clickhouse.client.mappers.v1
 
-import ClientContext
-import models.*
 import ru.otus.otuskotlin.clickhouse.client.api.v1.models.*
+import ru.otus.otuskotlin.clickhouse.client.common.ClientContext
+import ru.otus.otuskotlin.clickhouse.client.common.models.*
 import ru.otus.otuskotlin.clickhouse.client.mappers.v1.exceptions.UnknownClientCommand
 
 fun ClientContext.toTransportEstate(): IResponse = when (val cmd = command) {
@@ -12,7 +12,7 @@ fun ClientContext.toTransportEstate(): IResponse = when (val cmd = command) {
 
 fun ClientContext.toTransportSearch() = EstateSearchResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == ClientState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == ru.otus.otuskotlin.clickhouse.client.common.models.ClientState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     estates = estatesResponse.toTransportEstate()
 )
@@ -23,7 +23,7 @@ fun List<ClientEstate>.toTransportEstate(): List<EstateResponseObject>? = this
     .takeIf { it.isNotEmpty() }
 
 private fun ClientEstate.toTransportEstate(): EstateResponseObject = EstateResponseObject(
-    id = id.takeIf { it != models.ClientEstateId.NONE }?.asString(),
+    id = id.takeIf { it != ClientEstateId.NONE }?.asString(),
     price = price,
     date = date.takeIf { it.isNotBlank() },
     postcode1 = postcode1.takeIf { it.isNotBlank() },
