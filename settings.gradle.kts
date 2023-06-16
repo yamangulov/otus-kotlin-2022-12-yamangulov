@@ -24,4 +24,6 @@ include("stubs")
 include("app-kafka")
 include("biz")
 include("lib-cor")
+include("repo-in-memory")
+include("repo-tests")
 

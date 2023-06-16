@@ -21,4 +21,11 @@ data class ClientEstate(
     val permissionsClient: MutableSet<ClientEstatePermissionClient> = mutableSetOf(),
     var offset: Int = 0,
     var pagesize: Int = 1,
-    )
+    ) {
+    fun isEmpty() = this == NONE
+
+    companion object {
+        val NONE = ClientEstate()
+    }
+
+}
